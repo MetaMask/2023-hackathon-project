@@ -2,10 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Identicon from '../../../ui/identicon';
+import { Tag } from '../../../component-library/tag';
 import { ellipsify } from '../../../../pages/send/send.utils';
 
 function addressesEqual(address1, address2) {
   return String(address1).toLowerCase() === String(address2).toLowerCase();
+}
+
+function renderTags (tags) {
+  if (!tags) {
+    return null;
+  } else if (tags.includes('allowList')) {
+    return <Tag label="AllowList" labelProps={{ color: 'primary-inverse' }} backgroundColor="success-default" />;
+  } else if (tags.includes('blockList')) {
+    return <Tag label="BlockList" labelProps={{ color: 'primary-inverse' }} backgroundColor="error-default" />;
+  }
 }
 
 export default function RecipientGroup({
@@ -28,7 +39,7 @@ export default function RecipientGroup({
           {label}
         </div>
       )}
-      {items.map(({ address, name }) => (
+      {items.map(({ address, name, tags }) => (
         <div
           key={address}
           onClick={() => onSelect(address, name)}
@@ -55,6 +66,10 @@ export default function RecipientGroup({
               </div>
             )}
           </div>
+          {
+            renderTags(tags)
+          }
+          
         </div>
       ))}
     </div>

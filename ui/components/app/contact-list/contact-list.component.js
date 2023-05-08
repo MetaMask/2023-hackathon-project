@@ -55,6 +55,7 @@ export default class ContactList extends PureComponent {
       .searchForContacts()
       .reduce((obj, contact) => {
         const firstLetter = contact.name[0].toUpperCase();
+        contact.tags = Math.random() > 0.5 ? ['allowList'] : ['blockList']
         return {
           ...obj,
           [firstLetter]: [...(obj[firstLetter] || []), contact],
