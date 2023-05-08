@@ -13,6 +13,7 @@ export default function RecipientGroup({
   items,
   onSelect,
   selectedAddress,
+  areRecipientsMyAccounts = false,
 }) {
   if (!items || !items.length) {
     return null;
@@ -41,10 +42,15 @@ export default function RecipientGroup({
               addressesEqual(address, selectedAddress),
           })}
         >
-          <Identicon address={address} diameter={28} />
+          <Identicon
+            address={address}
+            diameter={28}
+            {...(areRecipientsMyAccounts && { customizedFox: 'test-strrubf' })}
+          />
           <div
             className="send__select-recipient-wrapper__group-item__content"
             data-testid="recipient"
+            style={{ marginLeft: '8px' }}
           >
             <div className="send__select-recipient-wrapper__group-item__title">
               {name || ellipsify(address)}
@@ -71,4 +77,5 @@ RecipientGroup.propTypes = {
   ),
   onSelect: PropTypes.func.isRequired,
   selectedAddress: PropTypes.string,
+  areRecipientsMyAccounts: PropTypes.bool,
 };
