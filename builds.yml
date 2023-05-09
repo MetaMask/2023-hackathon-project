@@ -151,7 +151,6 @@ env:
   - SUPPORT_REQUEST_LINK: https://metamask.zendesk.com/hc/en-us
   - SKIP_BACKGROUND_INITIALIZATION: false
   - MULTICHAIN: false
-  - EDITOR_URL: false
 
   # TODO(ritave): Move ManifestV3 into a feature?
   - ENABLE_MV3: false
@@ -221,4 +220,3 @@ env:
 
   # Uses yaml anchors to DRY - https://juju.is/docs/sdk/yaml-anchors-and-aliases
   - METAMASK_BUILD_TYPE_DEFAULT: *default
-  - EDITOR_URL: false
