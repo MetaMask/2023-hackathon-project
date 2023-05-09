@@ -29,7 +29,6 @@ function mapStateToProps(state) {
     metamask: { isAccountMenuOpen },
   } = state;
   const accounts = getMetaMaskAccountsOrdered(state);
-  console.log({ accounts });
   const origin = getOriginOfCurrentTab(state);
   const selectedAddress = getSelectedAddress(state);
   ///: BEGIN:ONLY_INCLUDE_IN(snaps)

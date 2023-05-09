@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { fillInFoxColor } from '../../../helpers/utils/generative-color';
 
-const FoxIcon = ({ size = 24, colorSchema }) => {
+const FoxIcon = ({ size = 24, address }) => {
+  const colorSchema = fillInFoxColor(address);
   const {
     earBaseColor,
     eyesColor,
@@ -262,7 +264,7 @@ FoxIcon.propTypes = {
    * The size of the Icon follows an 8px grid 2 = 16px, 3 = 24px etc
    */
   size: PropTypes.number,
-  colorSchema: PropTypes.object,
+  address: PropTypes.string,
 };
 
 export default FoxIcon;
