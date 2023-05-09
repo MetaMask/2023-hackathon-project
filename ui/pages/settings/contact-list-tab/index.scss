@@ -9,25 +9,39 @@
 
   .btn-wrapper {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    flex-direction: column;
-    font-size: 16px;
+    margin: 16px;
+    flex-direction: row;
+
+    @include screen-lg-max {
+      flex-direction: column;
+      margin: 16px 0px 0px 0px;
+    }
 
     :not(:last-child) {
-      margin-bottom: 15px;
       width: 100%;
       max-width: 220px;
+
+      @include screen-lg-max {
+        margin-bottom: 15px;
+      }
     }
 
     :last-child {
-      margin-bottom: 30px;
+      @include screen-lg-max {
+        margin-bottom: 30px;
+      }
     }
   }
 
   label.import-btn {
-    // max-width: 200px;
-    margin: 0 auto;
-    // margin-top: 10px;
+    margin: 0;
+    font-size: 16px;
+
+    @include screen-lg-max {
+      margin: 0 auto;
+    }
   }
 
   #import-contact-list {

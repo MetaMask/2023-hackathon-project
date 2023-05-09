@@ -1,5 +1,9 @@
 import { prependZero } from '../../../shared/modules/string-utils';
 
+const UPDATE_STRATEGY = Object.freeze({
+  MERGE: false,
+  OVERWRITE: true,
+});
 export default class BackupController {
   constructor(opts = {}) {
     const {
@@ -97,10 +101,8 @@ export default class BackupController {
         if (obj.hasOwnProperty(key)) {
           if (typeof obj[key] === 'object') {
             deleteKeys(obj[key], keysToDelete);
-          } else {
-            if (keysToDelete.includes(key)) {
-              delete obj[key];
-            }
+          } else if (keysToDelete.includes(key)) {
+            delete obj[key];
           }
         }
       }
@@ -109,12 +111,9 @@ export default class BackupController {
     const keysToDelete = ['isEns', 'addressType', 'source'];
     deleteKeys(contactList, keysToDelete);
 
-    console.log(contactList);
-
-
     return {
       fileName: `MetaMask_contact_list_${timestamp}.json`,
-      data: JSON.stringify(contactList, null, 2)
+      data: JSON.stringify(contactList, null, 2),
     };
   }
 
@@ -122,19 +121,29 @@ export default class BackupController {
     const addressBook = JSON.parse(jsonString);
 
     if (addressBook) {
-      const UPDATE_STRATEGY = Object.freeze({
-        MERGE: false,
-        OVERWRITE: true,
-      });
-
       this.addressBookController.update({ addressBook }, UPDATE_STRATEGY.MERGE);
     }
 
     if (addressBook) {
       this._trackMetaMetricsEvent({
-        event: 'User Data Imported',
+        event: 'Contact list imported',
         category: 'Backup',
       });
     }
+  }
+
+  async clearContactList() {
+    console.log('clearContactList on backup.js');
+    this.addressBookController.update(
+      {
+        addressBook: {},
+      },
+      UPDATE_STRATEGY.OVERWRITE,
+    );
+
+    this._trackMetaMetricsEvent({
+      event: 'Contact list cleared',
+      category: 'Backup',
+    });
   }
 }

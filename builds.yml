@@ -162,7 +162,6 @@ env:
 
   # This variable is read by Trezor's source and breaks build if not included
   - ASSET_PREFIX: null
-  - EDITOR_URL: 'trutas'
 
   ###
   # API keys to 3rd party services

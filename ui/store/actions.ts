@@ -1049,14 +1049,13 @@ export async function exportContactList(): Promise<{
   filename: string;
   data: string;
 }> {
-  console.log('actions.ts exportContactList()');
   let exportedContactList;
   try {
     exportedContactList = await submitRequestToBackground<{
       filename: string;
       data: string;
     }>('exportContactList');
-    console.log({ exportedContactList });
+
   } catch (error) {
     logErrorWithMessage(error);
     throw error;
@@ -1066,9 +1065,19 @@ export async function exportContactList(): Promise<{
 }
 
 export async function importContactList(jsonString: Json): Promise<true> {
-  console.log('importContactList actions.ts');
   try {
     await submitRequestToBackground('importContactList', [jsonString]);
+  } catch (error) {
+    logErrorWithMessage(error);
+    throw error;
+  }
+
+  return true;
+}
+
+export async function clearContactList(): Promise<true> {
+  try {
+    await submitRequestToBackground('clearContactList');
   } catch (error) {
     logErrorWithMessage(error);
     throw error;

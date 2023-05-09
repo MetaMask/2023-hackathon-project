@@ -98,12 +98,10 @@ export default class AdvancedTab extends PureComponent {
   }
 
   async getTextFromFile(file) {
-    console.log({ file });
     return new Promise((resolve, reject) => {
       const reader = new window.FileReader();
       reader.onload = (e) => {
         const text = e.target.result;
-        console.log({ text });
         resolve(text);
       };
 
@@ -116,7 +114,6 @@ export default class AdvancedTab extends PureComponent {
   }
 
   async handleFileUpload(event) {
-    console.log('handleFileUpload');
     /**
      * we need this to be able to access event.target after
      * the event handler has been called. [Synthetic Event Pooling, pre React 17]
@@ -131,7 +128,6 @@ export default class AdvancedTab extends PureComponent {
      * chrome blocks uploading same file twice.
      */
     event.target.value = '';
-    console.log({ jsonString });
     try {
       const result = await this.props.restoreUserData(jsonString);
       this.setState({

@@ -1,16 +1,20 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getAddressBook } from '../../../selectors';
-import { ENVIRONMENT_TYPE_POPUP } from '../../../../shared/constants/app';
+import { compose } from 'redux';
 import { getEnvironmentType } from '../../../../app/scripts/lib/util';
+import { ENVIRONMENT_TYPE_POPUP } from '../../../../shared/constants/app';
+import { getAddressBook } from '../../../selectors';
 
 import {
   CONTACT_ADD_ROUTE,
   CONTACT_EDIT_ROUTE,
   CONTACT_VIEW_ROUTE,
 } from '../../../helpers/constants/routes';
-import { exportContactList, importContactList } from '../../../store/actions';
+import {
+  clearContactList,
+  exportContactList,
+  importContactList,
+} from '../../../store/actions';
 import ContactListTab from './contact-list-tab.component';
 
 const mapStateToProps = (state, ownProps) => {
@@ -43,11 +47,10 @@ const mapStateToProps = (state, ownProps) => {
 export const mapDispatchToProps = () => {
   return {
     importContactList: (json) => {
-      console.log('mapDispatchToProps', { json });
-
       return importContactList(json);
     },
     exportContactList: () => exportContactList(),
+    clearContactList: () => clearContactList(),
   };
 };
 

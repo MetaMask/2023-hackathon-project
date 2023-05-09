@@ -60,6 +60,7 @@ export default class ContactListTab extends Component {
     hideAddressBook: PropTypes.bool,
     exportContactList: PropTypes.func.isRequired,
     importContactList: PropTypes.func.isRequired,
+    clearContactList: PropTypes.func.isRequired,
   };
 
   state = {
@@ -87,12 +88,10 @@ export default class ContactListTab extends Component {
   }
 
   async getTextFromFile(file) {
-    console.log('getTextFromFile');
     return new Promise((resolve, reject) => {
       const reader = new window.FileReader();
       reader.onload = (e) => {
         const text = e.target.result;
-        console.log({ text });
         resolve(text);
       };
 
@@ -105,7 +104,6 @@ export default class ContactListTab extends Component {
   }
 
   async importContactList(event) {
-    console.log('clicked import');
     /**
      * we need this to be able to access event.target after
      * the event handler has been called. [Synthetic Event Pooling, pre React 17]
@@ -126,13 +124,10 @@ export default class ContactListTab extends Component {
 
       // TODO Pedro
       // - turn off update overrides.
-      // - improve ui
       // - validation if two addresses are sent at same time.
       // - validation if properties that are needed are not there.
       // - validation if extra properties that are not needed are there.
-      // - Open PR
 
-      console.log({ result });
       this.setState({
         isVisibleResultMessage: true,
         isImportSuccessful: result,
@@ -159,6 +154,10 @@ export default class ContactListTab extends Component {
       category: 'Backup',
       properties: {},
     });
+  }
+
+  async clearContactList() {
+    await this.props.clearContactList();
   }
 
   renderImportExportButtons() {
