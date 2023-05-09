@@ -3693,6 +3693,9 @@ export default class MetamaskController extends EventEmitter {
             { origin },
           ),
 
+
+        readAddressBook: () => this.addressBookController.state,
+
         getCurrentChainId: () =>
           this.networkController.store.getState().providerConfig.chainId,
         getCurrentRpcUrl: () =>
