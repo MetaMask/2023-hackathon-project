@@ -30,21 +30,6 @@ import ViewContact from './view-contact';
 const CORRUPT_JSON_FILE = 'CORRUPT_JSON_FILE';
 
 export default class ContactListTab extends Component {
-  // <ActionableMessage
-  //   type={isImportSuccessful ? 'success' : 'danger'}
-  //   message={restoreMessageToRender}
-  //   primaryActionV2={{
-  //     label: 'dismiss',
-  //     onClick: () => {
-  //       this.setState({
-  //         isVisibleResultMessage: false,
-  //         isImportSuccessful: true,
-  //         importMessage: null,
-  //       });
-  //     },
-  //   }}
-  // />
-
   static contextTypes = {
     t: PropTypes.func,
   };
