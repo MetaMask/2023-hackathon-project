@@ -2388,6 +2388,11 @@ export default class MetamaskController extends EventEmitter {
       backupUserData: backupController.backupUserData.bind(backupController),
       restoreUserData: backupController.restoreUserData.bind(backupController),
 
+      exportContactList:
+        backupController.exportContactList.bind(backupController),
+      importContactList:
+        backupController.importContactList.bind(backupController),
+
       // DetectTokenController
       detectNewTokens: detectTokensController.detectNewTokens.bind(
         detectTokensController,

@@ -10,6 +10,7 @@ import {
   CONTACT_EDIT_ROUTE,
   CONTACT_VIEW_ROUTE,
 } from '../../../helpers/constants/routes';
+import { exportContactList, importContactList } from '../../../store/actions';
 import ContactListTab from './contact-list-tab.component';
 
 const mapStateToProps = (state, ownProps) => {
@@ -39,4 +40,18 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default compose(withRouter, connect(mapStateToProps))(ContactListTab);
+export const mapDispatchToProps = () => {
+  return {
+    importContactList: (json) => {
+      console.log('mapDispatchToProps', { json });
+
+      return importContactList(json);
+    },
+    exportContactList: () => exportContactList(),
+  };
+};
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(ContactListTab);

@@ -7,6 +7,33 @@
 .address-book {
   flex: 0.4 1 100%;
 
+  .btn-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: 16px;
+
+    :not(:last-child) {
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 220px;
+    }
+
+    :last-child {
+      margin-bottom: 30px;
+    }
+  }
+
+  label.import-btn {
+    // max-width: 200px;
+    margin: 0 auto;
+    // margin-top: 10px;
+  }
+
+  #import-contact-list {
+    display: none;
+  }
+
   @include screen-sm-max {
     flex: 1;
     max-width: 100%;
