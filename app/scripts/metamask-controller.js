@@ -3666,7 +3666,7 @@ export default class MetamaskController extends EventEmitter {
           ),
         getProviderState: this.getProviderState.bind(this),
         getAddressBook: () => this.addressBookController.state.addressBook,
-        addToAddressBook: this.addressBookController.set.bind(
+        addToAddressBookRequest: this.addressBookController.set.bind(
           this.addressBookController,
         ),
         getUnlockPromise: this.appStateController.getUnlockPromise.bind(

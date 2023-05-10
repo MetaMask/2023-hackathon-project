@@ -15,7 +15,6 @@ import snapPrompt from './snaps/snap-prompt/snap-prompt';
 ///: END:ONLY_INCLUDE_IN
 
 const APPROVAL_TEMPLATES = {
-  // TODO: add in [MESSAGE_TYPE.ADD_TO_ADDRESS_BOOK]: addToAddressBook,
   [MESSAGE_TYPE.ADD_ETHEREUM_CHAIN]: addEthereumChain,
   [MESSAGE_TYPE.SWITCH_ETHEREUM_CHAIN]: switchEthereumChain,
   ///: BEGIN:ONLY_INCLUDE_IN(snaps)
