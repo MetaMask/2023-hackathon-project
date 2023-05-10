@@ -1,9 +1,6 @@
+import { merge } from 'lodash';
 import { prependZero } from '../../../shared/modules/string-utils';
 
-const UPDATE_STRATEGY = Object.freeze({
-  MERGE: false,
-  OVERWRITE: true,
-});
 export default class BackupController {
   constructor(opts = {}) {
     const {
@@ -108,7 +105,7 @@ export default class BackupController {
       }
     }
 
-    const keysToDelete = ['isEns', 'addressType', 'source'];
+    const keysToDelete = ['isEns', 'addressType'];
     deleteKeys(contactList, keysToDelete);
 
     return {
@@ -118,13 +115,17 @@ export default class BackupController {
   }
 
   async importContactList(jsonString) {
-    const addressBook = JSON.parse(jsonString);
+    const newState = JSON.parse(jsonString);
 
-    if (addressBook) {
-      this.addressBookController.update({ addressBook }, UPDATE_STRATEGY.MERGE);
+    if (newState) {
+      const previousState = this.addressBookController.state.addressBook;
+      const mergedState = merge({}, previousState, newState);
+
+      // overwrite on `update` only does shallow merge
+      this.addressBookController.update({ addressBook: mergedState }, false);
     }
 
-    if (addressBook) {
+    if (newState) {
       this._trackMetaMetricsEvent({
         event: 'Contact list imported',
         category: 'Backup',
@@ -133,12 +134,11 @@ export default class BackupController {
   }
 
   async clearContactList() {
-    console.log('clearContactList on backup.js');
     this.addressBookController.update(
       {
         addressBook: {},
       },
-      UPDATE_STRATEGY.OVERWRITE,
+      true,
     );
 
     this._trackMetaMetricsEvent({
