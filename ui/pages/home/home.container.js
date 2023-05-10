@@ -126,9 +126,15 @@ const mapStateToProps = (state) => {
     ApprovalType.WatchAsset,
   );
 
+  const hasAddToAddressBookPendingApprovals = hasPendingApprovalsSelector(
+    state,
+    ApprovalType.AddToAddressBook,
+  );
+
   return {
     forgottenPassword,
     hasWatchAssetPendingApprovals,
+    hasAddToAddressBookPendingApprovals,
     swapsEnabled,
     unconfirmedTransactionsCount: unconfirmedTransactionsCountSelector(state),
     shouldShowSeedPhraseReminder: getShouldShowSeedPhraseReminder(state),

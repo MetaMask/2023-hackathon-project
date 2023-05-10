@@ -22,6 +22,7 @@ import ImportTokenPage from '../import-token';
 import AddNftPage from '../add-nft';
 import ConfirmImportTokenPage from '../confirm-import-token';
 import ConfirmAddSuggestedTokenPage from '../confirm-add-suggested-token';
+import AddToAddressBookPage from '../add-to-address-book';
 import CreateAccountPage from '../create-account';
 import Loading from '../../components/ui/loading-screen';
 import LoadingNetwork from '../../components/app/loading-network-screen';
@@ -76,6 +77,7 @@ import {
   BUILD_QUOTE_ROUTE,
   CONFIRMATION_V_NEXT_ROUTE,
   CONFIRM_IMPORT_TOKEN_ROUTE,
+  ADD_TO_ADDRESS_BOOK_ROUTE,
   ONBOARDING_ROUTE,
   ADD_NFT_ROUTE,
   ONBOARDING_UNLOCK_ROUTE,
@@ -222,6 +224,7 @@ export default class Routes extends Component {
   }
 
   renderRoutes() {
+    console.log('in routes');
     const { autoLockTimeLimit, setLastActiveTime, forgottenPassword } =
       this.props;
     const RestoreVaultComponent = forgottenPassword ? Route : Initialized;
@@ -285,6 +288,11 @@ export default class Routes extends Component {
         <Authenticated
           path={CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE}
           component={ConfirmAddSuggestedTokenPage}
+          exact
+        />
+        <Authenticated
+          path={ADD_TO_ADDRESS_BOOK_ROUTE}
+          component={AddToAddressBookPage}
           exact
         />
         <Authenticated
