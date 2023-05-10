@@ -16,6 +16,8 @@ import {
 import { REVEAL_SEED_ROUTE } from '../../../../../helpers/constants/routes';
 import withModalProps from '../../../../../helpers/higher-order-components/with-modal-props/with-modal-props';
 import { useI18nContext } from '../../../../../hooks/useI18nContext';
+import { setUserCompletedSRPQuiz } from '../../../../../store/actions';
+
 import {
   BUTTON_VARIANT,
   Icon,
@@ -43,7 +45,11 @@ const SRPQuiz = (props: any) => {
   };
 
   const goToRevealPrivateCredential = () => {
-    history.push(REVEAL_SEED_ROUTE);
+    if (props.isSecurityCheckList) {
+      setUserCompletedSRPQuiz(true);
+    } else {
+      history.push(REVEAL_SEED_ROUTE);
+    }
     props.hideModal();
   };
 
