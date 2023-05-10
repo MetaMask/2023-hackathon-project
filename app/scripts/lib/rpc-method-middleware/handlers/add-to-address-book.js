@@ -21,7 +21,7 @@ async function addToAddressBookHandler(
   _,
   _next,
   end,
-  { requestUserApproval },
+  { requestUserApproval, addToAddressBook: _addToAddressBook },
 ) {
   if (!req.params || typeof req.params !== 'object') {
     return end(
@@ -42,7 +42,7 @@ async function addToAddressBookHandler(
     memo = '',
     addressType,
     tags = [],
-    source = ''
+    source = '',
   } = req.params;
 
   const _chainId = typeof chainId === 'string' && chainId.toLowerCase();
@@ -75,10 +75,18 @@ async function addToAddressBookHandler(
         memo,
         addressType,
         tags,
-        source
+        source,
       },
     });
-    await addToAddressBook(address, name, chainId, memo, addressType, tags, source);
+    await addToAddressBook(
+      address,
+      name,
+      chainId,
+      memo,
+      addressType,
+      tags,
+      source,
+    );
   } catch (error) {
     // For the purposes of this method, it does not matter if the user
     // declines to add a contact. However, other errors indicate
