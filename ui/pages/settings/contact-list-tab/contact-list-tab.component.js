@@ -103,9 +103,10 @@ export default class ContactListTab extends Component {
      * chrome blocks uploading same file twice.
      */
     event.target.value = '';
+    console.log({ file });
 
     try {
-      const result = await this.props.importContactList(jsonString);
+      const result = await this.props.importContactList(jsonString, file.name);
 
       // TODO Pedro
       // - turn off update overrides.

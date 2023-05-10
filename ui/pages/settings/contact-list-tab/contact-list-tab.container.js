@@ -46,9 +46,7 @@ const mapStateToProps = (state, ownProps) => {
 
 export const mapDispatchToProps = () => {
   return {
-    importContactList: (json) => {
-      return importContactList(json);
-    },
+    importContactList: (json, fileName) => importContactList(json, fileName),
     exportContactList: () => exportContactList(),
     clearContactList: () => clearContactList(),
   };
