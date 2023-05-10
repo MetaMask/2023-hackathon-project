@@ -25,6 +25,7 @@ const ConfirmClearContactList = ({ clearContactList, hideModal }) => {
       submitText="Clear contact list"
       onCancel={() => hideModal()}
       cancelText="Cancel"
+      submitType="danger-primary"
     >
       <Box
         display={DISPLAY.FLEX}
