@@ -45,7 +45,7 @@ export default class ContactListTab extends Component {
     hideAddressBook: PropTypes.bool,
     exportContactList: PropTypes.func.isRequired,
     importContactList: PropTypes.func.isRequired,
-    clearContactList: PropTypes.func.isRequired,
+    showClearContactListModal: PropTypes.func.isRequired,
   };
 
   state = {
@@ -103,16 +103,9 @@ export default class ContactListTab extends Component {
      * chrome blocks uploading same file twice.
      */
     event.target.value = '';
-    console.log({ file });
 
     try {
       const result = await this.props.importContactList(jsonString, file.name);
-
-      // TODO Pedro
-      // - turn off update overrides.
-      // - validation if two addresses are sent at same time.
-      // - validation if properties that are needed are not there.
-      // - validation if extra properties that are not needed are there.
 
       this.setState({
         isVisibleResultMessage: true,
@@ -140,10 +133,6 @@ export default class ContactListTab extends Component {
       category: 'Backup',
       properties: {},
     });
-  }
-
-  async clearContactList() {
-    await this.props.clearContactList();
   }
 
   renderImportExportButtons() {
@@ -200,7 +189,7 @@ export default class ContactListTab extends Component {
           <Button
             data-testid="clear-contacts"
             variant={BUTTON_VARIANT.LINK}
-            onClick={() => this.clearContactList()}
+            onClick={() => this.props.showClearContactListModal()}
           >
             Clear contact list
           </Button>
