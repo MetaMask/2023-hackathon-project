@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { isValidHexAddress } from '@metamask/controller-utils';
@@ -19,6 +19,7 @@ import {
 import { isValidDomainName } from '../../helpers/utils/util';
 import { isBurnAddress } from '../../../shared/modules/hexstring-utils';
 import { INVALID_RECIPIENT_ADDRESS_ERROR } from '../send/send.constants';
+import { addToAddressBook } from '../../store/actions';
 
 const ALLOW_LIST = 'allowList';
 const BLOCK_LIST = 'blockList';
@@ -27,18 +28,17 @@ const AddToAddressBook = ({
   address = '',
   name = '',
   memo = '',
-  addToAddressBook,
+  tags = [],
 }) => {
   const t = useContext(I18nContext);
   const mostRecentOverviewPage = useSelector(getMostRecentOverviewPage);
+  const dispatch = useDispatch();
   const history = useHistory();
 
-  const [nameInput, setNameInput] = useState(name === null ? '' : name);
-  const [memoInput, setMemoInput] = useState(memo === null ? '' : memo);
-  const [addressInput, setAddressInput] = useState(
-    address === null ? '' : address,
-  );
-  const [tags, setTags] = useState([]);
+  const [nameInput, setNameInput] = useState(name);
+  const [memoInput, setMemoInput] = useState(memo);
+  const [addressInput, setAddressInput] = useState(address);
+  const [inputTags, setInputTags] = useState(tags);
   const [error, setError] = useState('');
 
   const validate = (newAddress) => {
@@ -68,18 +68,18 @@ const AddToAddressBook = ({
   };
 
   const addAllowList = () => {
-    if (tags.includes(ALLOW_LIST)) {
-      setTags(tags.filter((tag) => tag !== ALLOW_LIST));
+    if (inputTags.includes(ALLOW_LIST)) {
+      setInputTags(inputTags.filter((tag) => tag !== ALLOW_LIST));
     } else {
-      setTags([...tags, ALLOW_LIST]);
+      setInputTags([...inputTags, ALLOW_LIST]);
     }
   };
 
   const addBlockList = () => {
-    if (tags.includes(BLOCK_LIST)) {
-      setTags(tags.filter((tag) => tag !== BLOCK_LIST));
+    if (inputTags.includes(BLOCK_LIST)) {
+      setInputTags(inputTags.filter((tag) => tag !== BLOCK_LIST));
     } else {
-      setTags([...tags, BLOCK_LIST]);
+      setInputTags([...inputTags, BLOCK_LIST]);
     }
   };
 
@@ -148,7 +148,7 @@ const AddToAddressBook = ({
               value="allowList"
               onClick={addAllowList}
               id="allow-list-checkbox"
-              checked={tags.length > 0 && tags.includes(ALLOW_LIST)}
+              checked={inputTags.length > 0 && inputTags.includes(ALLOW_LIST)}
             />
             <Label htmlFor="allow-list-checkbox">
               <Text
@@ -171,7 +171,7 @@ const AddToAddressBook = ({
               id="block-list-checkbox"
               value="blockList"
               onClick={addBlockList}
-              checked={tags.length > 0 && tags.includes(BLOCK_LIST)}
+              checked={inputTags.length > 0 && inputTags.includes(BLOCK_LIST)}
             />
             <Label htmlFor="block-list-checkbox">
               <Text
@@ -192,7 +192,9 @@ const AddToAddressBook = ({
           history.push(mostRecentOverviewPage);
         }}
         onSubmit={async () => {
-          await addToAddressBook(addressInput, nameInput, memoInput, tags);
+          await dispatch(
+            addToAddressBook(addressInput, nameInput, memoInput, inputTags),
+          );
         }}
         disabled={Boolean(error || !addressInput || !nameInput.trim())}
       />
@@ -206,5 +208,5 @@ AddToAddressBook.propTypes = {
   name: PropTypes.string,
   address: PropTypes.string,
   memo: PropTypes.string,
-  addToAddressBook: PropTypes.func,
+  tags: PropTypes.array,
 };
