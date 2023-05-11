@@ -203,8 +203,6 @@ export default class Home extends PureComponent {
       unconfirmedTransactionsCount,
     } = this.props;
 
-    console.log('in home component', { hasAddToAddressBookPendingApprovals });
-
     if (shouldCloseNotificationPopup(props)) {
       this.state.notificationClosing = true;
       closeNotificationPopup();

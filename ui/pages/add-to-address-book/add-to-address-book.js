@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { isValidHexAddress } from '@metamask/controller-utils';
-import { getMostRecentOverviewPage } from '../../ducks/history/history';
+import { ethErrors } from 'eth-rpc-errors';
 import { PageContainerFooter } from '../../components/ui/page-container';
 import { I18nContext } from '../../contexts/i18n';
 import TextField from '../../components/ui/text-field';
@@ -19,7 +18,12 @@ import {
 import { isValidDomainName } from '../../helpers/utils/util';
 import { isBurnAddress } from '../../../shared/modules/hexstring-utils';
 import { INVALID_RECIPIENT_ADDRESS_ERROR } from '../send/send.constants';
-import { addToAddressBook } from '../../store/actions';
+import {
+  addToAddressBook,
+  rejectPendingApproval,
+  resolvePendingApproval,
+} from '../../store/actions';
+import { getPendingApprovals } from '../../selectors';
 
 const ALLOW_LIST = 'allowList';
 const BLOCK_LIST = 'blockList';
@@ -31,9 +35,9 @@ const AddToAddressBook = ({
   tags = [],
 }) => {
   const t = useContext(I18nContext);
-  const mostRecentOverviewPage = useSelector(getMostRecentOverviewPage);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const pendingApprovals = useSelector(getPendingApprovals);
+  const pendingApprovalId = pendingApprovals[0].id;
 
   const [nameInput, setNameInput] = useState(name);
   const [memoInput, setMemoInput] = useState(memo);
@@ -55,7 +59,6 @@ const AddToAddressBook = ({
 
   const handleNameChange = (event) => {
     setNameInput(event.target.value);
-    validate(event.target.value);
   };
 
   const handleMemoChange = (event) => {
@@ -188,13 +191,19 @@ const AddToAddressBook = ({
       <PageContainerFooter
         cancelText={t('cancel')}
         submitText={t('save')}
-        onCancel={async () => {
-          history.push(mostRecentOverviewPage);
+        onCancel={() => {
+          dispatch(
+            rejectPendingApproval(
+              pendingApprovalId,
+              ethErrors.provider.userRejectedRequest().serialize(),
+            ),
+          );
         }}
         onSubmit={async () => {
           await dispatch(
             addToAddressBook(addressInput, nameInput, memoInput, inputTags),
           );
+          dispatch(resolvePendingApproval(pendingApprovalId, true));
         }}
         disabled={Boolean(error || !addressInput || !nameInput.trim())}
       />

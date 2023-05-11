@@ -224,7 +224,6 @@ export default class Routes extends Component {
   }
 
   renderRoutes() {
-    console.log('in routes');
     const { autoLockTimeLimit, setLastActiveTime, forgottenPassword } =
       this.props;
     const RestoreVaultComponent = forgottenPassword ? Route : Initialized;
