@@ -1,58 +1,62 @@
 .add-to-address-book {
-  padding: 16px;
+    &__wrapper {
+    height: 620px;
+    width: 360px;
+    border-radius: 10px;
+    max-height: 100vh;
+    width: auto;
 
-  &__link {
-    @include H7;
+    .popover-header {
+      border-bottom: 1px solid var(--color-border-muted);
+      margin-bottom: 16px;
+      border-radius: 10px;
+    }
 
-    display: inline;
-    color: var(--color-primary-default);
-    padding-left: 0;
+    @include screen-sm-max {
+      width: 96%;
+      height: 96%;
+    }
   }
 
-  &__header {
-    @include H7;
-
-    display: flex;
+  &__cancel {
+    margin-right: 16px;
   }
 
-  &__token {
-    flex: 1;
-    min-width: 0;
-  }
+  &__content {
+    padding: 0 18px 20px 18px;
+    position: relative;
 
-  &__balance {
-    flex: 0 0 30%;
-    min-width: 0;
-  }
+    &__text-area-wrapper {
+      height: 96px !important;
+    }
 
-  &__token-list {
-    display: flex;
-    flex-flow: column nowrap;
-  }
+    &__text-area {
+      line-height: initial !important;
+    }
 
-  &__token-list-item {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    margin-top: 8px;
-    box-sizing: border-box;
-  }
+    &__address {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--color-text-alternative);
+      margin-bottom: 16px;
+      overflow-wrap: break-word;
+    }
 
-  &__data {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-  }
+    &__label,
+    &__label--capitalized {
+      text-transform: capitalize;
+      margin-top: 16px;
+      color: var(--color-text-default);
+      font-size: 14px;
+    }
 
-  &__name {
-    min-width: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    &__name-label {
+      margin: 8px 0px;
+      color: var(--color-text-default);
+      font-size: 14px;
+    }
   }
-
-  &__token-icon {
-    margin-right: 12px;
-    flex: 0 0 auto;
-  }
+    &__row {
+      display: flex;
+    }
 }
