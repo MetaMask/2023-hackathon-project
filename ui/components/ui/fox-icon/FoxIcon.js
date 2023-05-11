@@ -27,6 +27,7 @@ const FoxIcon = ({
   handleNewColorSettled,
   shouldShuffle,
 }) => {
+  console.log({ address });
   const [colorSchema, setColorSchema] = useState(
     settledColorSchema || fillInFoxColor(generateColorPurelyOnAddress(address)),
   );

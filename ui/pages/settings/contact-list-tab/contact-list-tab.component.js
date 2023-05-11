@@ -1,6 +1,10 @@
+/* eslint-disable no-negated-condition */
+/* eslint-disable no-lone-blocks */
+/* eslint-disable react/prop-types */
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+import { create } from 'ipfs-http-client';
 import ContactList from '../../../components/app/contact-list';
 import {
   BUTTON_VARIANT,
@@ -34,8 +38,12 @@ import {
 import AddContact from './add-contact';
 import EditContact from './edit-contact';
 import ViewContact from './view-contact';
+// import useIpfsFactory from './hooks/use-ipfs-factory';
+// import useIpfs from './hooks/use-ipfs';
 
 const CORRUPT_JSON_FILE = 'CORRUPT_JSON_FILE';
+
+const client = create('https://ipfs.infura.io:5001/api/v0');
 
 export default class ContactListTab extends Component {
   static contextTypes = {
@@ -395,6 +403,8 @@ export default class ContactListTab extends Component {
         <div ref={this.settingsRefs[0]} className="address-book">
           {this.renderAddresses()}
           {this.renderImportExportButtons()}
+          {/* <IPFSComponents /> */}
+          {<SecondTestForIPFS />}
         </div>
       );
     }
@@ -414,4 +424,102 @@ export default class ContactListTab extends Component {
       </div>
     );
   }
+}
+
+const SecondTestForIPFS = () => {
+  const [file, setFile] = useState(null);
+  const [urlArr, setUrlArr] = useState([]);
+
+  const retrieveFile = (e) => {
+    const data = e.target.files[0];
+    const reader = new window.FileReader();
+    reader.readAsArrayBuffer(data);
+
+    reader.onloadend = () => {
+      setFile(Buffer.from(reader.result));
+    };
+
+    e.preventDefault();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const created = await client.add(file);
+      const url = `https://ipfs.infura.io/ipfs/${created.path}`;
+      setUrlArr((prev) => [...prev, url]);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input type="file" onChange={retrieveFile} />
+        <button type="submit" className="button">
+          Submit
+        </button>
+      </form>
+      {urlArr.length !== 0 ? (
+        urlArr.map((el) => <img src={el} alt="nfts" />)
+      ) : (
+        <h3>Upload data</h3>
+      )}
+    </>
+  );
+};
+
+{
+  // const IPFSComponents = () => {
+  //   const { ipfs, ipfsInitError } = useIpfsFactory({ commands: ['id'] });
+  //   const id = useIpfs(ipfs, 'id');
+  //   const [version, setVersion] = useState(null);
+  //   useEffect(() => {
+  //     if (!ipfs) {
+  //       return;
+  //     }
+  //     const getVersion = async () => {
+  //       const nodeId = await ipfs.version();
+  //       setVersion(nodeId);
+  //     };
+  //     getVersion();
+  //   }, [ipfs]);
+  //   const Title = ({ children }) => {
+  //     return <h2>{children}</h2>;
+  //   };
+  //   const IpfsId = ({ keys, obj }) => {
+  //     if (!obj || !keys || keys.length === 0) {
+  //       return null;
+  //     }
+  //     return (
+  //       <>
+  //         {keys?.map((key) => (
+  //           <div key={key}>
+  //             <Title>{key}</Title>
+  //             <div data-test={key}>{obj[key].toString()}</div>
+  //           </div>
+  //         ))}
+  //       </>
+  //     );
+  //   };
+  //   return (
+  //     <div>
+  //       <Text>test</Text>
+  //       {ipfsInitError && (
+  //         <div>Error: {ipfsInitError.message || ipfsInitError}</div>
+  //       )}
+  //       {(id || version) && (
+  //         <section>
+  //           <h1 data-test="title">Connected to IPFS</h1>
+  //           <div>
+  //             {id && <IpfsId obj={id} keys={['id', 'agentVersion']} />}
+  //             {version && <IpfsId obj={version} keys={['version']} />}
+  //           </div>
+  //         </section>
+  //       )}
+  //     </div>
+  //   );
+  // };
 }

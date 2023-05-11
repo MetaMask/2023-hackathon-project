@@ -955,6 +955,14 @@ function setupBundlerDefaults(
             : [],
         },
       ],
+      // Transpile libraries that use ES2020 unsupported by Chrome v78
+      [
+        babelify,
+        {
+          only: ['./**/node_modules/dot-prop'],
+          global: true,
+        },
+      ],
       // Inline `fs.readFileSync` files
       brfs,
     ],

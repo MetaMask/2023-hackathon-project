@@ -303,6 +303,7 @@
     "currency-formatter": "^1.4.2",
     "debounce-stream": "^2.0.0",
     "deep-freeze-strict": "1.1.1",
+    "dot-prop": "^8.0.0",
     "end-of-stream": "^1.4.4",
     "eth-block-tracker": "^7.0.0",
     "eth-ens-namehash": "^2.0.8",
@@ -326,6 +327,7 @@
     "human-standard-token-abi": "^2.0.0",
     "husky": "^8.0.3",
     "immer": "^9.0.6",
+    "ipfs-http-client": "^60.0.0",
     "is-retry-allowed": "^2.2.0",
     "jest-junit": "^14.0.1",
     "json-rpc-engine": "^6.1.0",
@@ -631,7 +633,8 @@
       "@metamask/eth-trezor-keyring>@trezor/connect-web>@trezor/connect>@trezor/transport>protobufjs": false,
       "@metamask/eth-trezor-keyring>@trezor/connect-web>@trezor/connect>@trezor/utxo-lib>blake-hash": false,
       "@metamask/eth-trezor-keyring>@trezor/connect-web>@trezor/connect>@trezor/utxo-lib>tiny-secp256k1": false,
-      "@metamask/eth-trezor-keyring>hdkey>secp256k1": false
+      "@metamask/eth-trezor-keyring>hdkey>secp256k1": false,
+      "ipfs-http-client>ipfs-core-utils>ipfs-unixfs>protobufjs": true
     }
   },
   "packageManager": "yarn@3.2.4"
