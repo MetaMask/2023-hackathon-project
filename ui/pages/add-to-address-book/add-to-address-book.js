@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { isValidHexAddress } from '@metamask/controller-utils';
 import { ethErrors } from 'eth-rpc-errors';
 import { PageContainerFooter } from '../../components/ui/page-container';
@@ -8,10 +7,14 @@ import { I18nContext } from '../../contexts/i18n';
 import TextField from '../../components/ui/text-field';
 import Box from '../../components/ui/box/box';
 import CheckBox from '../../components/ui/check-box';
-import { Label, Text } from '../../components/component-library';
+import { Tag, Label, Text } from '../../components/component-library';
+import { ellipsify } from '../send/send.utils';
 import {
   AlignItems,
+  BorderColor,
+  BorderRadius,
   FLEX_DIRECTION,
+  JustifyContent,
   TextColor,
   TextVariant,
 } from '../../helpers/constants/design-system';
@@ -28,16 +31,18 @@ import { getPendingApprovals } from '../../selectors';
 const ALLOW_LIST = 'allowList';
 const BLOCK_LIST = 'blockList';
 
-const AddToAddressBook = ({
-  address = '',
-  name = '',
-  memo = '',
-  tags = [],
-}) => {
+const AddToAddressBook = () => {
   const t = useContext(I18nContext);
   const dispatch = useDispatch();
   const pendingApprovals = useSelector(getPendingApprovals);
-  const pendingApprovalId = pendingApprovals[0].id;
+  const pendingApprovalId = pendingApprovals[0]?.id;
+  const pendingApprovalRequestData = pendingApprovals[0]?.requestData || {};
+  const isBulkRequest = pendingApprovalRequestData.isBulkRequest || false;
+  const address = pendingApprovalRequestData.data?.address || '';
+  const name = pendingApprovalRequestData.data?.name || '';
+  const memo = pendingApprovalRequestData.data?.memo || '';
+  const tags = pendingApprovalRequestData.data?.tags || [];
+  const source = pendingApprovalRequestData.source || '';
 
   const [nameInput, setNameInput] = useState(name);
   const [memoInput, setMemoInput] = useState(memo);
@@ -85,6 +90,100 @@ const AddToAddressBook = ({
       setInputTags([...inputTags, BLOCK_LIST]);
     }
   };
+
+  if (isBulkRequest) {
+    return (
+      <div className="page-container">
+        <div className="page-container__header">
+          <div className="page-container__title">Add contacts</div>
+          <div className="page-container__subtitle">
+            Confirm if you would like to add the following addresses to your
+            Contacts.
+          </div>
+        </div>
+        <div className="page-container__content">
+          <div className="add-to-address-book__content">
+            {pendingApprovalRequestData.data.map((item) => (
+              <Box
+                flexDirection={FLEX_DIRECTION.ROW}
+                key={item.address}
+                padding={2}
+                marginTop={4}
+                borderRadius={BorderRadius.SM}
+                borderColor={BorderColor.borderMuted}
+              >
+                <Box
+                  justifyContent={JustifyContent.spaceBetween}
+                  alignItems={AlignItems.center}
+                >
+                  <div>
+                    <Text
+                      variant={TextVariant.bodyMdBold}
+                      as="p"
+                      color={TextColor.textDefault}
+                    >
+                      {item.name || 'New Contact'}
+                    </Text>
+                    <Text
+                      variant={TextVariant.bodySm}
+                      as="p"
+                      color={TextColor.textMuted}
+                    >
+                      {ellipsify(item.address)}
+                    </Text>
+                  </div>
+                  {item.tags && item.tags.length > 0 ? (
+                    <Tag
+                      label={
+                        item.tags.includes('allowList')
+                          ? 'Allow List'
+                          : 'Block List'
+                      }
+                      labelProps={{ color: 'primary-inverse' }}
+                      labelSize="bodyXs"
+                      backgroundColor={
+                        item.tags.includes('allowList')
+                          ? 'success-default'
+                          : 'error-default'
+                      }
+                      boxPadding={3}
+                    />
+                  ) : (
+                    <div />
+                  )}
+                </Box>
+              </Box>
+            ))}
+          </div>
+        </div>
+        <PageContainerFooter
+          cancelText={t('cancel')}
+          submitText={t('submit')}
+          onCancel={() => {
+            dispatch(
+              rejectPendingApproval(
+                pendingApprovalId,
+                ethErrors.provider.userRejectedRequest().serialize(),
+              ),
+            );
+          }}
+          onSubmit={async () => {
+            // TODO: dispatch for each address
+            await dispatch(
+              addToAddressBook(
+                addressInput,
+                nameInput,
+                memoInput,
+                inputTags,
+                source,
+              ),
+            );
+            dispatch(resolvePendingApproval(pendingApprovalId, true));
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="page-container">
@@ -201,7 +300,13 @@ const AddToAddressBook = ({
         }}
         onSubmit={async () => {
           await dispatch(
-            addToAddressBook(addressInput, nameInput, memoInput, inputTags),
+            addToAddressBook(
+              addressInput,
+              nameInput,
+              memoInput,
+              inputTags,
+              source,
+            ),
           );
           dispatch(resolvePendingApproval(pendingApprovalId, true));
         }}
@@ -212,10 +317,3 @@ const AddToAddressBook = ({
 };
 
 export default AddToAddressBook;
-
-AddToAddressBook.propTypes = {
-  name: PropTypes.string,
-  address: PropTypes.string,
-  memo: PropTypes.string,
-  tags: PropTypes.array,
-};
