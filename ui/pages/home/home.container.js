@@ -128,7 +128,7 @@ const mapStateToProps = (state) => {
 
   const hasAddToAddressBookPendingApprovals = hasPendingApprovalsSelector(
     state,
-    ApprovalType.AddToAddressBook,
+    'wallet_addToAddressBook',
   );
 
   return {
