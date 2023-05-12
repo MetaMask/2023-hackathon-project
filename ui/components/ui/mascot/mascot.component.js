@@ -38,14 +38,14 @@ export default class Mascot extends Component {
   constructor(props) {
     super(props);
 
-    const { width, height, followMouse } = props;
+    const { width, height, followMouse, meshJson = getBuildSpecificAsset('foxMeshJson') } = props;
 
     this.logo = MetaMaskLogo({
       followMouse,
       pxNotRatio: true,
       width,
       height,
-      meshJson: getBuildSpecificAsset('foxMeshJson'),
+      meshJson,
     });
 
     this.mascotContainer = createRef();
