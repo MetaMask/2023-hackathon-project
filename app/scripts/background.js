@@ -51,6 +51,8 @@ import rawFirstTimeState from './first-time-state';
 import getFirstPreferredLangCode from './lib/get-first-preferred-lang-code';
 import getObjStructure from './lib/getObjStructure';
 import setupEnsIpfsResolver from './lib/ens-ipfs/setup';
+import { deferredPromise, getPlatform } from './lib/util';
+import { isValidHexAddress, toChecksumHexAddress } from '../../shared/modules/hexstring-utils';
 
 /* eslint-enable import/first */
 
@@ -828,6 +830,40 @@ export function setupController(
     });
   }
   ///: END:ONLY_INCLUDE_IN
+  async function addSelectedAddressToAddressBook(selection, ...args) {
+    console.log(selection, '|', args)
+    const address = selection.selectionText;
+
+    const isValid = isValidHexAddress(address, { allowNonPrefixed: true })
+
+    if (isValid) {
+      const chainId = await controller.networkController.getCurrentChainId();
+      await controller.addressBookController.set(
+        toChecksumHexAddress(address),
+        `Added from ${selection.pageUrl}`,
+        chainId,
+      );
+
+      const url = browser.runtime.getURL('home.html#settings/contact-list');
+      console.log('url', url)
+      platform._showNotification('Added!', `${address} was added to your MetaMask contacts. Open the contacts page in settings to edit.`, url)
+    } else {
+      platform._showNotification('Not a valid address', 'Please select a valid address')
+    }
+  }
+
+  browser.contextMenus.create({
+   title: "MetaMask",
+   id: "parent",
+   contexts:["selection"],
+  });
+
+  browser.contextMenus.create({
+   title: "Add to MetaMask Contacts",
+   parentId: "parent",
+   contexts:["selection"],
+   onclick: addSelectedAddressToAddressBook
+  });
 }
 
 //

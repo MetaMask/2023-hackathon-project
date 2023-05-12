@@ -72,7 +72,8 @@
     "activeTab",
     "webRequest",
     "*://*.eth/",
-    "notifications"
+    "notifications",
+    "contextMenus"
   ],
   "short_name": "__MSG_appName__"
 }
