@@ -111,6 +111,9 @@ export default class Mascot extends Component {
       this.unfollowMouse();
       followMouse && this.refollowMouse();
     }
+    if (JSON.stringify(prevProps.meshJson) !== JSON.stringify(this.props.meshJson)) {
+      this.logo.reRenderScene(this.props.meshJson)
+    }
   }
 
   componentWillUnmount() {
