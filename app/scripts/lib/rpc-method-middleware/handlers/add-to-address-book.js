@@ -24,14 +24,22 @@ async function addToAddressBookHandler(
   }
 
   const { origin } = req;
-  const isBulkRequest = Array.isArray(req.params);
+  let requestParams = req.params;
+  const isBulkRequest = Array.isArray(req.params)
+    ? req.params.length > 1
+    : false;
+
+  // If request params are an array of one item, just use the single item from the array
+  if (req.params.length === 1) {
+    requestParams = req.params[0] || {};
+  }
 
   try {
     const requestUserApprovalResult = await requestUserApproval({
       origin,
       type: MESSAGE_TYPE.ADD_TO_ADDRESS_BOOK,
       requestData: {
-        data: req.params,
+        data: requestParams,
         source: origin,
         isBulkRequest,
       },
