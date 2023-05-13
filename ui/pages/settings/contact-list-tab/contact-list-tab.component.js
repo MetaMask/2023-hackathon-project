@@ -192,7 +192,7 @@ export default class ContactListTab extends Component {
             startIconName={IconName.Export}
             onClick={() => this.exportContactList()}
           >
-            Export contacts
+            Export contact list
           </ButtonLink>
           <label
             htmlFor="import-contact-list"
@@ -200,7 +200,7 @@ export default class ContactListTab extends Component {
             style={{ marginTop: '16px', marginBottom: '16px' }}
           >
             <Icon name={IconName.Import} />
-            Import contacts
+            Import contact list
           </label>
           <input
             id="import-contact-list"
@@ -229,7 +229,7 @@ export default class ContactListTab extends Component {
             startIconName={IconName.Close}
             onClick={() => this.props.showClearContactListModal()}
           >
-            Clear contacts
+            Clear contact list
           </ButtonLink>
         </Box>
       </>
