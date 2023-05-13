@@ -364,6 +364,7 @@ const FoxIcon = ({
   handleNewColorSettled,
   shouldShuffle,
   svgRef,
+  followMouse = false,
 }) => {
   const [colorSchema, setColorSchema] = useState(
     settledColorSchema || fillInFoxColor(generateColorPurelyOnAddress(address)),
@@ -445,9 +446,10 @@ const FoxIcon = ({
   return (
     <Mascot
       animationEventEmitter={eventEmitter}
-      width="120"
-      height="120"
+      width={String(size)}
+      height={String(size)}
       meshJson={applyColoursToFoxJson(colorSchema)}
+      followMouse={followMouse}
     />
   );
 };

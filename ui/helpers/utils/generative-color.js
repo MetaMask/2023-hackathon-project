@@ -97,6 +97,7 @@ export const fillInFoxColor = (colorArray) => {
     hexToRgb(skinColors[1]), // 2nd shadow
     hexToRgb(skinColors[2]), // 3rd shadow
     hexToRgb(skinColors[3]), // base skin tone
+    hexToRgb(skinColors[0]), // darkest shadow
   ];
 };
 

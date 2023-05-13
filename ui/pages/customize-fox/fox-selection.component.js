@@ -247,6 +247,7 @@ export default function FoxSelection() {
             handleNewColorSettled={handleNewColorSettled}
             shouldShuffle={shouldShuffle}
             svgRef={svgRef}
+            followMouse={true}
           />
 
           <Box
