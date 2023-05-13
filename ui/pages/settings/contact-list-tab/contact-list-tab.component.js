@@ -542,30 +542,11 @@ export default class ContactListTab extends Component {
   }
 
   render() {
-    const {
-      viewingContact,
-      editingContact,
-      addingContact,
-      showContactContent,
-      addressBook,
-    } = this.props;
-
-    if (!showContactContent) {
-      return null;
-    }
-
-    let ContactContentComponent = null;
-    if (viewingContact) {
-      ContactContentComponent = ViewContact;
-    } else if (editingContact) {
-      ContactContentComponent = EditContact;
-    } else if (addingContact) {
-      ContactContentComponent = AddContact;
-    }
+    const { addingContact, addressBook } = this.props;
 
     return (
       <div className="address-book-wrapper">
-        {!ContactContentComponent && this.renderAddressBookContent()}
+        {this.renderAddressBookContent()}
         {this.renderContactContent()}
         {!addingContact && addressBook.length > 0
           ? this.renderAddButton()

@@ -7,7 +7,7 @@ import { ellipsify } from '../../../../pages/send/send.utils';
 import { Color } from '../../../../helpers/constants/design-system';
 import CheckBox from '../../../ui/check-box';
 import { ButtonIcon, IconName } from '../../../component-library';
-import { Tooltip } from '@material-ui/core';
+import Tooltip from '../../../ui/tooltip/tooltip';
 
 function addressesEqual(address1, address2) {
   return String(address1).toLowerCase() === String(address2).toLowerCase();
