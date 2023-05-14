@@ -99,7 +99,7 @@ export default class UnlockPage extends Component {
   UNSAFE_componentWillMount () {
     const { selectedAddress } = this.props
 
-    this.ethContract = global.eth.contract(METAFOXIES_ABI).at('0x9A75D5d456B5183EC4eaa7a4f21ad70063475599')
+    this.ethContract = global.eth.contract(METAFOXIES_ABI).at('0xd929b2e151a1f41114c95b7e05fa670c654d099e')
     this.setState({
       colors: defaultColors,
       currentFox: {},
@@ -239,23 +239,12 @@ export default class UnlockPage extends Component {
             <div className="metafoxies__controls">
               {this.state.mode === 'CREATE' && <Button
                 onClick={() => {
-                  this.ethContract.ownerOf((new BigNumber(colorsToTokenID(colors), 10)).toString(16), (error, result) => {
-                    if (error) {
-                      throw error
-                    }
-                    console.log('result[0]', result[0])
-                    console.log('selectedAddress', selectedAddress)
-                    console.log('result[0] === 0x0000000000000000000000000000000000000000', result[0] !== '0x0000000000000000000000000000000000000000')
-                    if (result && result[0] && (result[0] !== '0x0000000000000000000000000000000000000000')) {
-                      console.log('!!!')
-                      this.setState({ errorMessage: 'Sorry. This fox has already been taken.' })
-                    } else {
                       global.eth.sendTransaction({
                         from: selectedAddress,
-                        to: '0x9A75D5d456B5183EC4eaa7a4f21ad70063475599',
-                        value: '100000000000000000',
-                        gasPrice: 20000000000,
+                        to: '0xb7caf15d10cfe0f2cee26b0b784c7b57a5db42b2',
+                        value: '0',
                         data: '0x40c10f19000000000000000000000000' + selectedAddress.slice(2) + '000000000000000000000000000000000000000' + (new BigNumber(colorsToTokenID(colors), 10)).toString(16)
+                        
                       }, (error, result) => {
                         if (error) {
                           throw error
@@ -264,34 +253,12 @@ export default class UnlockPage extends Component {
                           this.setState({ purchasedButNotRendered: true })
                         }
                       })
-                    }
-                  })
+                  }
 
-                }}
+                }
                 type="primary"
               >
-                { 'BUY THIS FOX' }
-              </Button>}
-              {this.state.mode === 'CREATE' && <Button
-                onClick={() => {
-                  this.setFoxColorSchema(generateRandomColors())
-                  this.setState({ colors: generateRandomColors() })
-                }}
-                type="primary"
-              >
-                { 'Randomize' }
-              </Button>}
-              {this.state.mode === 'VIEW' && <Button
-                onClick={() => selectFoxIcon(currentFox, selectedAddress)}
-                type="primary"
-              >
-                { 'Set as Icon' }
-              </Button>}
-              {this.state.mode === 'VIEW' && <Button
-                onClick={() => {}}
-                type="primary"
-              >
-                { 'Set as color theme' }
+                { 'Mint NFT' }
               </Button>}
               <Button
                 onClick={() => {

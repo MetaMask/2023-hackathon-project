@@ -50,7 +50,7 @@ export function useAssetDetails(tokenAddress, userAddress, transactionData) {
       transactionData !== prevTransactionData ||
       (prevTokenBalance && prevTokenBalance !== tokensWithBalances)
     ) {
-      getAndSetAssetDetails();
+      // getAndSetAssetDetails();
     }
   }, [
     dispatch,
