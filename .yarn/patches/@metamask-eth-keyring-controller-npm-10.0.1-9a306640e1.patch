@@ -31,7 +31,7 @@ index bdda034a22c4a13814360fc2e6275bfbefaabcb2..c533f82a531e329e433f2e4f3524aa08
     */
 -  async createFirstKeyTree() {
 -    this.clearKeyrings();
-+  async createFirstKeyTree({ extendExistingKeyrings = false }) {
++  async createFirstKeyTree({ extendExistingKeyrings = false } = {}) {
 +    if (!extendExistingKeyrings) {
 +      this.clearKeyrings();
 +    }

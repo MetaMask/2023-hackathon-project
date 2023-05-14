@@ -3953,14 +3953,14 @@ __metadata:
 
 "@metamask/eth-keyring-controller@patch:@metamask/eth-keyring-controller@npm%3A10.0.1#./.yarn/patches/@metamask-eth-keyring-controller-npm-10.0.1-9a306640e1.patch::locator=metamask-crx%40workspace%3A.":
   version: 10.0.1
-  resolution: "@metamask/eth-keyring-controller@patch:@metamask/eth-keyring-controller@npm%3A10.0.1#./.yarn/patches/@metamask-eth-keyring-controller-npm-10.0.1-9a306640e1.patch::version=10.0.1&hash=42becd&locator=metamask-crx%40workspace%3A."
+  resolution: "@metamask/eth-keyring-controller@patch:@metamask/eth-keyring-controller@npm%3A10.0.1#./.yarn/patches/@metamask-eth-keyring-controller-npm-10.0.1-9a306640e1.patch::version=10.0.1&hash=10fbfb&locator=metamask-crx%40workspace%3A."
   dependencies:
     "@metamask/browser-passworder": ^4.0.2
     "@metamask/eth-hd-keyring": ^6.0.0
     "@metamask/eth-sig-util": 5.0.2
     "@metamask/eth-simple-keyring": ^5.0.0
     obs-store: ^4.0.3
-  checksum: af26bfcbc46b8829ff585b8d964d93a88b3549abb91a13529267c7e679b8b82ca4c379fa41cf006694c548b7a7203710ce12b145388e66ba8fb218c92983ec26
+  checksum: 6c89b7298840a0085c2a74ba304d14fbc78a21e72fd67b711b1112da15a527484b8284585d3e33bb7ccb4c0dd75e50b3534b51de8fc9e0d3a8cde88433df6bae
   languageName: node
   linkType: hard
 
