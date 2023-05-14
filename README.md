@@ -21,6 +21,8 @@ Uncompressed builds can be found in `/dist`, compressed builds can be found in `
 
 - Click "Manage Extensions" in the extension dropdown
 
+- Turn on "Developer mode" in the top right corner
+
 - Click "Load unpacked"
 
 - Navigate to the folder `<extension file path>/dist/chrome`
