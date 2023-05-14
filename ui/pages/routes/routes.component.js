@@ -120,6 +120,7 @@ import DeprecatedTestNetworks from '../../components/ui/deprecated-test-networks
 import NewNetworkInfo from '../../components/ui/new-network-info/new-network-info';
 import { ThemeType } from '../../../shared/constants/preferences';
 import FoxSelection from '../customize-fox/fox-selection.component';
+import MetaFoxies from '../meta-foxies'
 
 export default class Routes extends Component {
   static propTypes = {

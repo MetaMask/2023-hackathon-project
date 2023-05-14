@@ -15,6 +15,10 @@ export const POLISH_OPTIONS = [
     value: 'default',
     name: 'Your favourite fox',
   },
+  {
+    value: 'manualMint',
+    name: 'Manual Mint',
+  },
 ];
 
 export const EditorSelectionOptions = [

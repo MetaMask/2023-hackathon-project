@@ -26,6 +26,7 @@ import { setAccountColor } from '../../store/actions';
 import { EditorSelectionOptions, POLISH_OPTIONS } from './constants';
 import { downloadBlob } from '../../helpers/utils/color-util';
 import { isEqual } from 'lodash';
+import MetaFoxies from '../meta-foxies'
 
 const checkValueExists = (arr, val) => {
   return arr.some((option) => option.value === val);
@@ -54,6 +55,9 @@ export default function FoxSelection() {
   const [accountOptions, setAccountOptions] = useState([]);
   const [editorSelection, setEditorSelection] = useState('1');
   const [foxColorSchema, setFoxColorSchema] = useState(
+    Object.values(FOX_COLOR_PALETTE),
+  );
+  const [manualColorSchema, setManualColorSchema] = useState(
     Object.values(FOX_COLOR_PALETTE),
   );
 
@@ -240,19 +244,29 @@ export default function FoxSelection() {
           alignItems={AlignItems.center}
           gap={12}
         >
+
+          <div style={{ display: 'flex', flexFlow: 'column' }}>
           <FoxIcon
-            address={accounts[Number(selectedAccountIndex)].address}
-            settledColorSchema={
-              accounts[Number(selectedAccountIndex)].colorSchema
-            }
-            size={280}
-            colorPaletteType={polishOption}
-            editorSelection={Number(editorSelection)}
-            handleNewColorSettled={handleNewColorSettled}
-            shouldShuffle={shouldShuffle}
-            svgRef={svgRef}
-            followMouse={true}
-          />
+              address={accounts[Number(selectedAccountIndex)].address}
+              settledColorSchema={
+                accounts[Number(selectedAccountIndex)].colorSchema
+              }
+              size={280}
+              colorPaletteType={polishOption}
+              editorSelection={Number(editorSelection)}
+              handleNewColorSettled={handleNewColorSettled}
+              shouldShuffle={shouldShuffle}
+              svgRef={svgRef}
+              followMouse={true}
+              manualColorSchema={manualColorSchema}
+            />
+          
+          {polishOption === 'manualMint'
+            ? <MetaFoxies setFoxColorSchema={setManualColorSchema} />
+            : null
+          }
+          </div>
+
 
           <Box
             marginLeft={12}
