@@ -46,6 +46,10 @@ export default function FoxSelection() {
     initialSelectedIndex.toString(),
   );
 
+  useEffect(() => {
+    setSelectedAccountIndex(initialSelectedIndex.toString());
+  }, [initialSelectedIndex]);
+
   const [shouldShuffle, setShouldShuffle] = useState(false);
   const [accountOptions, setAccountOptions] = useState([]);
   const [editorSelection, setEditorSelection] = useState('1');

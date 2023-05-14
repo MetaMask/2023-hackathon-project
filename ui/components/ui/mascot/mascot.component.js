@@ -38,7 +38,12 @@ export default class Mascot extends Component {
   constructor(props) {
     super(props);
 
-    const { width, height, followMouse, meshJson = getBuildSpecificAsset('foxMeshJson') } = props;
+    const {
+      width,
+      height,
+      followMouse,
+      meshJson = getBuildSpecificAsset('foxMeshJson'),
+    } = props;
 
     this.logo = MetaMaskLogo({
       followMouse,
@@ -111,8 +116,10 @@ export default class Mascot extends Component {
       this.unfollowMouse();
       followMouse && this.refollowMouse();
     }
-    if (JSON.stringify(prevProps.meshJson) !== JSON.stringify(this.props.meshJson)) {
-      this.logo.reRenderScene(this.props.meshJson)
+    if (
+      JSON.stringify(prevProps.meshJson) !== JSON.stringify(this.props.meshJson)
+    ) {
+      this.logo.reRenderScene(this.props.meshJson);
     }
   }
 
@@ -128,6 +135,16 @@ export default class Mascot extends Component {
     // the event emitter is on `this.props`
     // and we dont get that until render
     this.handleAnimationEvents();
-    return <div ref={this.mascotContainer} style={{ zIndex: 0 }} />;
+    return (
+      <div
+        ref={this.mascotContainer}
+        style={{
+          zIndex: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex',
+        }}
+      />
+    );
   }
 }
