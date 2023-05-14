@@ -72,11 +72,11 @@ export const generateColorPurelyOnAddress = (address) => {
 
   // TODO: Danica If user are not happy with the generated one
   // they can shuffle to a different set until they are happy
-  // shuffleArray(colorsFromAddress);
+  shuffleArray(colorsFromAddress);
 
   // Insert the 1 color randomly inside array of 5
   colorsFromAddress.splice(
-    4,
+    getRandomIndex(slicedAddress, FOX_COLOR_PALETTE),
     0,
     colorFromAddressString,
   );

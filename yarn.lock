@@ -3938,7 +3938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/eth-keyring-controller@npm:^10.0.1":
+"@metamask/eth-keyring-controller@npm:10.0.1":
   version: 10.0.1
   resolution: "@metamask/eth-keyring-controller@npm:10.0.1"
   dependencies:
@@ -3948,6 +3948,19 @@ __metadata:
     "@metamask/eth-simple-keyring": ^5.0.0
     obs-store: ^4.0.3
   checksum: 61ce1c7de37c414b5917c004e61c4d1ca71465bd95a00c749408fdde2105cd9c15bedc32c7ce2f6f2f4ff31ca8b6c7056f3460ad91e3d24d9f43974d84b5603b
+  languageName: node
+  linkType: hard
+
+"@metamask/eth-keyring-controller@patch:@metamask/eth-keyring-controller@npm%3A10.0.1#./.yarn/patches/@metamask-eth-keyring-controller-npm-10.0.1-9a306640e1.patch::locator=metamask-crx%40workspace%3A.":
+  version: 10.0.1
+  resolution: "@metamask/eth-keyring-controller@patch:@metamask/eth-keyring-controller@npm%3A10.0.1#./.yarn/patches/@metamask-eth-keyring-controller-npm-10.0.1-9a306640e1.patch::version=10.0.1&hash=42becd&locator=metamask-crx%40workspace%3A."
+  dependencies:
+    "@metamask/browser-passworder": ^4.0.2
+    "@metamask/eth-hd-keyring": ^6.0.0
+    "@metamask/eth-sig-util": 5.0.2
+    "@metamask/eth-simple-keyring": ^5.0.0
+    obs-store: ^4.0.3
+  checksum: af26bfcbc46b8829ff585b8d964d93a88b3549abb91a13529267c7e679b8b82ca4c379fa41cf006694c548b7a7203710ce12b145388e66ba8fb218c92983ec26
   languageName: node
   linkType: hard
 
@@ -4076,13 +4089,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/logo@npm:^3.1.1":
+"@metamask/logo@npm:3.1.1":
   version: 3.1.1
   resolution: "@metamask/logo@npm:3.1.1"
   dependencies:
     gl-mat4: 1.1.4
     gl-vec3: 1.0.3
   checksum: 37989c642d1f9cc6925d5cb60d972577450a39dae42c652cee94a6f5077c20d3645c555e3a9fe44aec328fcf170b26cb457c3a589e08517c4767ed3214eca920
+  languageName: node
+  linkType: hard
+
+"@metamask/logo@patch:@metamask/logo@npm%3A3.1.1#./.yarn/patches/@metamask-logo-npm-3.1.1-0330461c93.patch::locator=metamask-crx%40workspace%3A.":
+  version: 3.1.1
+  resolution: "@metamask/logo@patch:@metamask/logo@npm%3A3.1.1#./.yarn/patches/@metamask-logo-npm-3.1.1-0330461c93.patch::version=3.1.1&hash=6654bb&locator=metamask-crx%40workspace%3A."
+  dependencies:
+    gl-mat4: 1.1.4
+    gl-vec3: 1.0.3
+  checksum: 5b4f68ce241b564aa27b3322e00d86582a33fd616a0b8c7cdcddc903039e0d889315a28047af53cb50163e01d512aef6e05bda9953b0a08fff4a792b67b5b2b2
   languageName: node
   linkType: hard
 
