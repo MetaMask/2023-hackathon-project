@@ -43,6 +43,7 @@ const FoxIcon = ({
   shouldShuffle,
   svgRef,
   followMouse = false,
+  manualColorSchema,
 }) => {
   const [colorSchema, setColorSchema] = useState(
     settledColorSchema || fillInFoxColor(generateColorPurelyOnAddress(address)),
@@ -78,6 +79,8 @@ const FoxIcon = ({
       case COLOR_PALETTE_TYPE.default:
         setColorSchema(Object.values(FOX_COLOR_PALETTE));
         break;
+      case 'manualMint':
+        setColorSchema(manualColorSchema);
       default:
         setColorSchema(fillInFoxColor(generateColorPurelyOnAddress(address)));
         break;
@@ -109,6 +112,10 @@ const FoxIcon = ({
     }
   }, [shouldShuffle]);
 
+  const selectColorSchema = colorPaletteType === 'manualMint'
+    ? manualColorSchema
+    : colorSchema
+
   return (
     <div ref={svgRef}>
       <Mascot
@@ -118,7 +125,7 @@ const FoxIcon = ({
         meshJson={
           colorPaletteType === COLOR_PALETTE_TYPE.default
             ? baseFoxJson
-            : applyColoursToFoxJson(colorSchema)
+            : applyColoursToFoxJson(selectColorSchema)
         }
         followMouse={followMouse}
       />

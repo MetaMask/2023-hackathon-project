@@ -31,6 +31,7 @@ import { usePrevious } from '../../../hooks/usePrevious';
 import { getNftsDropdownState } from '../../../ducks/metamask/metamask';
 import { useI18nContext } from '../../../hooks/useI18nContext';
 import { Icon, IconName } from '../../component-library';
+import FoxIcon from '../../ui/fox-icon/FoxIcon';
 import NftDefaultImage from '../nft-default-image';
 
 const width =
@@ -168,7 +169,7 @@ export default function NftsItems({
         {isExpanded ? (
           <Box display={DISPLAY.FLEX} flexWrap={FLEX_WRAP.WRAP} gap={4}>
             {nfts.map((nft, i) => {
-              const { image, address, tokenId, backgroundColor, name } = nft;
+              const { image, address, tokenId, backgroundColor, name, foxColors } = nft;
               const nftImage = getAssetImageURL(image, ipfsGateway);
               const nftImageAlt = getNftImageAlt(nft);
               const handleImageClick = () =>
@@ -186,7 +187,7 @@ export default function NftsItems({
                     justifyContent={JustifyContent.center}
                     className="nfts-items__item-wrapper__card"
                   >
-                    {nftImage ? (
+                    {nftImage || foxColors ? (
                       <button
                         className="nfts-items__item"
                         style={{
@@ -194,12 +195,17 @@ export default function NftsItems({
                         }}
                         onClick={handleImageClick}
                       >
-                        <img
-                          className="nfts-items__item-image"
-                          data-testid="nft-image"
-                          src={nftImage}
-                          alt={nftImageAlt}
-                        />
+                        {
+                          foxColors
+                          ? <FoxIcon size={100} manualColorSchema={foxColors} settledColorSchema={foxColors} followMouse={false} colorPaletteType={'manualMint'} />
+                          : <img
+                            className="nfts-items__item-image"
+                            data-testid="nft-image"
+                            src={nftImage}
+                            alt={nftImageAlt}
+                          />
+                        }
+                        
                       </button>
                     ) : (
                       <NftDefaultImage
