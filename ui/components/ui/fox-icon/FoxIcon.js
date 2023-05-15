@@ -79,6 +79,8 @@ const FoxIcon = ({
       case COLOR_PALETTE_TYPE.default:
         setColorSchema(Object.values(FOX_COLOR_PALETTE));
         break;
+      case 'manualMint':
+        setColorSchema(manualColorSchema);
       default:
         setColorSchema(fillInFoxColor(generateColorPurelyOnAddress(address)));
         break;

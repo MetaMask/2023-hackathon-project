@@ -27,6 +27,7 @@ import { EditorSelectionOptions, POLISH_OPTIONS } from './constants';
 import { downloadBlob } from '../../helpers/utils/color-util';
 import { isEqual } from 'lodash';
 import MetaFoxies from '../meta-foxies'
+import { usePrevious } from '../../hooks/usePrevious';
 
 const checkValueExists = (arr, val) => {
   return arr.some((option) => option.value === val);
@@ -78,13 +79,16 @@ export default function FoxSelection() {
       : 'generative',
   );
 
+  const previousSelectedAccountIndex = usePrevious(Number(selectedAccountIndex));
   useEffect(() => {
-    setPolishOption(
-      accounts[Number(selectedAccountIndex)].colorSchema
-        ? 'previousSelected'
-        : 'generative',
-    );
-  }, [selectedAccountIndex, accounts]);
+    // if (previousSelectedAccountIndex !== selectedAccountIndex) {
+    //   setPolishOption(
+    //     accounts[Number(selectedAccountIndex)].colorSchema
+    //       ? 'previousSelected'
+    //       : 'generative',
+    //   );
+    // }
+  }, [selectedAccountIndex, accounts, previousSelectedAccountIndex]);
 
   const [polishOptions, setPolishOptions] = useState(POLISH_OPTIONS);
 

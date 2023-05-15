@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -17,7 +17,7 @@ import {
   TextColor,
 } from '../../../helpers/constants/design-system';
 import { useI18nContext } from '../../../hooks/useI18nContext';
-import { getIsMainnet, getUseNftDetection } from '../../../selectors';
+import { getIsMainnet, getUseNftDetection, getSelectedAddress } from '../../../selectors';
 import { EXPERIMENTAL_ROUTE } from '../../../helpers/constants/routes';
 import {
   checkAndUpdateAllNftsOwnershipStatus,
@@ -25,13 +25,75 @@ import {
 } from '../../../store/actions';
 import { useNftsCollections } from '../../../hooks/useNftsCollections';
 import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
+import METAFOXIES_ABI from '../../../pages/meta-foxies/metafoxies-abi.js'
+import foxColors from '../../../pages/meta-foxies/fox-colors'
+
+const hexToRGB = function (hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? [
+    parseInt(result[1], 16),
+    parseInt(result[2], 16),
+    parseInt(result[3], 16)
+    ]
+   : null;
+}
+
+const hexColorsToRGB = colors => colors.map(color => hexToRGB(color))
+
+const uint256ToColors = function (uint256) {
+  const intsForColors = uint256.slice(0,30)
+  const colors = intsForColors.match(/.{1,3}/g)
+    .map(n => foxColors[Number(n) - 100])
+  return hexColorsToRGB(colors)
+}
 
 export default function NftsTab({ onAddNFT }) {
   const useNftDetection = useSelector(getUseNftDetection);
   const isMainnet = useSelector(getIsMainnet);
+  const selectedAddress = useSelector(getSelectedAddress);
   const history = useHistory();
   const t = useI18nContext();
   const dispatch = useDispatch();
+
+  const [ethContract] = useState(() => global.eth.contract(METAFOXIES_ABI).at('0xC36063ECfCd6D5C8b5CabEBef937E4b9EBd55726'))
+  const [foxCollection, setFoxCollection] = useState({});
+
+  useEffect(() => {
+    ethContract.balanceOf(selectedAddress, (error, result1) => {
+      if (error) {
+        throw error
+      }
+      const numberOfFoxes = result1[0].toNumber()
+      const promises = []
+      for(let i = 0;i < numberOfFoxes; i++) {
+        promises.push(new Promise((resolve,reject) => {
+          console.log('$$$ selectedAddress', selectedAddress)
+          console.log('$$$ i', i)
+          ethContract.tokenOfOwnerByIndex(selectedAddress, i, (error, result2) => {
+            if (error) {
+              return reject(error)
+            }
+            console.log('result2', result2)
+            resolve(result2)
+        })}))
+      }
+      Promise.all(promises)
+        .then(results => {
+          console.log('$$$ results 2', results)
+          const foxNFTs = results.map(result => ({
+            tokenId: result[0].toString(10),
+            foxColors: uint256ToColors(result[0].toString(10))
+          }));
+          const _collection = {
+            collectionName: 'SecurityFox',
+            // collectionImage: collectionContract?.logo || nft.image,
+            nfts: foxNFTs,
+          };
+          setFoxCollection(_collection)
+        })
+
+    })
+  }, [])
 
   const { nftsLoading, collections, previouslyOwnedCollection } =
     useNftsCollections();
@@ -49,6 +111,10 @@ export default function NftsTab({ onAddNFT }) {
 
   if (nftsLoading) {
     return <div className="nfts-tab__loading">{t('loadingNFTs')}</div>;
+  }
+
+  if (foxCollection?.nfts?.length) {
+    collections['0xC36063ECfCd6D5C8b5CabEBef937E4b9EBd55726'] =  foxCollection
   }
 
   return (

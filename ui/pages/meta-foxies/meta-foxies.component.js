@@ -142,41 +142,41 @@ export default class UnlockPage extends Component {
 
   componentDidUpdate (prevProps, prevState) {
     const { purchasedButNotRendered, numberOfFoxes } = this.state
-    if (!prevState.purchasedButNotRendered && purchasedButNotRendered) {
-      this.checkInterval = setInterval(() => {
-        this.ethContract.balanceOf(this.props.selectedAddress, (error, result1) => {
-          if (error) {
-            throw error
-          }
-          const newNumberOfFoxes = result1[0].toNumber()
-          // console.log('$$$ newNumberOfFoxes', newNumberOfFoxes)
-          // console.log('$$$ numberOfFoxes + 1', numberOfFoxes + 1)
-          if (newNumberOfFoxes === numberOfFoxes + 1) {
-            console.log('$$$ newNumberOfFoxes', newNumberOfFoxes)
-            console.log('$$$ this.props.selectedAddress', this.props.selectedAddress)
-            setTimeout(() => this.ethContract.tokenOfOwnerByIndex(this.props.selectedAddress, numberOfFoxes, (error, result) => {
-              if (error) {
-                throw error
-              }
-              console.log('$$$ 1 result[0]', result[0])
-              console.log('$$$ result[0].toString(10)', result[0].toString(10))
-              this.setState({
-                metafoxies: [
-                  ...this.state.metafoxies, {
-                    id: result[0].toString(10),
-                    colors: uint256ToColors(result[0].toString(10))
-                  }
-                ],
-                numberOfFoxes: newNumberOfFoxes,
-                purchasedButNotRendered: false
-              })
-            }), 1000)
-          }
-        })
-      }, 15000)
-    } else if (prevState.purchasedButNotRendered && !purchasedButNotRendered) {
-      clearInterval(this.checkInterval)
-    }
+    // if (!prevState.purchasedButNotRendered && purchasedButNotRendered) {
+    //   this.checkInterval = setInterval(() => {
+    //     this.ethContract.balanceOf(this.props.selectedAddress, (error, result1) => {
+    //       if (error) {
+    //         throw error
+    //       }
+    //       const newNumberOfFoxes = result1[0].toNumber()
+    //       // console.log('$$$ newNumberOfFoxes', newNumberOfFoxes)
+    //       // console.log('$$$ numberOfFoxes + 1', numberOfFoxes + 1)
+    //       if (newNumberOfFoxes === numberOfFoxes + 1) {
+    //         console.log('$$$ newNumberOfFoxes', newNumberOfFoxes)
+    //         console.log('$$$ this.props.selectedAddress', this.props.selectedAddress)
+    //         setTimeout(() => this.ethContract.tokenOfOwnerByIndex(this.props.selectedAddress, numberOfFoxes, (error, result) => {
+    //           if (error) {
+    //             throw error
+    //           }
+    //           console.log('$$$ 1 result[0]', result[0])
+    //           console.log('$$$ result[0].toString(10)', result[0].toString(10))
+    //           this.setState({
+    //             metafoxies: [
+    //               ...this.state.metafoxies, {
+    //                 id: result[0].toString(10),
+    //                 colors: uint256ToColors(result[0].toString(10))
+    //               }
+    //             ],
+    //             numberOfFoxes: newNumberOfFoxes,
+    //             purchasedButNotRendered: false
+    //           })
+    //         }), 1000)
+    //       }
+    //     })
+    //   }, 15000)
+    // } else if (prevState.purchasedButNotRendered && !purchasedButNotRendered) {
+    //   clearInterval(this.checkInterval)
+    // }
   }
 
   selectFox = (fox) => {
@@ -241,16 +241,13 @@ export default class UnlockPage extends Component {
                 onClick={() => {
                       global.eth.sendTransaction({
                         from: selectedAddress,
-                        to: '0xb7caf15d10cfe0f2cee26b0b784c7b57a5db42b2',
+                        to: '0xC36063ECfCd6D5C8b5CabEBef937E4b9EBd55726',
                         value: '0',
-                        data: '0x40c10f19000000000000000000000000' + selectedAddress.slice(2) + '000000000000000000000000000000000000000' + (new BigNumber(colorsToTokenID(colors), 10)).toString(16)
-                        
+                        data: '0xa1448194000000000000000000000000' + selectedAddress.slice(2) + '000000000000000000000000000000000000000' + (new BigNumber(colorsToTokenID(colors), 10)).toString(16)
+
                       }, (error, result) => {
                         if (error) {
                           throw error
-                        }
-                        else {
-                          this.setState({ purchasedButNotRendered: true })
                         }
                       })
                   }
