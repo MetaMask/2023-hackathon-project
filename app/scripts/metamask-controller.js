@@ -2568,14 +2568,13 @@ export default class MetamaskController extends EventEmitter {
       const [primaryKeyring] = this.keyringController.getKeyringsByType(
         KeyringType.hdKeyTree,
       );
-      let vault;
       if (primaryKeyring) {
-        throw new Error('HD keychain already exists!')
-      }
+        throw new Error('HD keychain already exists!');
+      };
 
-
-      const firstAccount = await this.keyringController.createNewHDKeychainAndFirstAccount();
-      await addNewAccount(null, firstAccount);
+      const firstAccount =
+        await this.keyringController.createNewHDKeychainAndFirstAccount();
+      await this.addNewAccount(null, firstAccount);
       return firstAccount;
     } finally {
       releaseLock();

@@ -187,20 +187,26 @@ export default function CreatePassword({
 
   let progressBar;
   if (secretRecoveryPhrase && firstTimeFlowType === FIRST_TIME_FLOW_TYPES.IMPORT) {
-    progressBar = <TwoStepProgressBar
-      stage={twoStepStages.PASSWORD_CREATE}
-      marginBottom={4}
-    />
+    progressBar = (
+      <TwoStepProgressBar
+        stage={twoStepStages.PASSWORD_CREATE}
+        marginBottom={4}
+      />
+    );
   } else if (firstTimeFlowType === 'hardware') {
-    progressBar = <TwoStepProgressBarHardware
-      stage={twoStepStagesHardware.PASSWORD_CREATE}
-      marginBottom={4}
-    />
+    progressBar = (
+      <TwoStepProgressBarHardware
+        stage={twoStepStagesHardware.PASSWORD_CREATE}
+        marginBottom={4}
+      />
+    );
   } else {
-    progressBar = <ThreeStepProgressBar
-      stage={threeStepStages.PASSWORD_CREATE}
-      marginBottom={4}
-    />
+    progressBar = (
+      <ThreeStepProgressBar
+        stage={threeStepStages.PASSWORD_CREATE}
+        marginBottom={4}
+      />
+    );
   }
 
   return (
